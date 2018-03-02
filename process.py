@@ -1,13 +1,16 @@
-from pylab import np
-from scikits.talkbox.features import mfcc
 import os
-from os import listdir
-from os.path import isfile, join
-from sklearn.linear_model import LogisticRegression
-from sklearn.metrics import confusion_matrix
 import matplotlib.pyplot as plt
 import scipy
 import scipy.io.wavfile
+
+from os import listdir
+from os.path import isfile, join
+from pylab import np
+from scikits.talkbox.features import mfcc
+from sklearn import cross_validation
+from sklearn.cross_validation import train_test_split
+from sklearn.linear_model import LogisticRegression
+from sklearn.metrics import confusion_matrix
 
 ## Reading Files
 print('# Reading Files...')
@@ -49,7 +52,6 @@ for myclassfiles in samples_files:
 
 ## Fitting algorithm
 print('# Training NN...')
-from sklearn.cross_validation import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(XA, ya, test_size=0.33, random_state=1)
 
 ## Prediction
@@ -80,6 +82,5 @@ plt.figure()
 plot_confusion_matrix(cm)
 
 # Cross Validation
-from sklearn import cross_validation
 scores = cross_validation.cross_val_score(clf, XA, ya, cv=3, scoring='accuracy')
 print(scores[0])
